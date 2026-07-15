@@ -4,7 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node extract.cjs",
     "dev": "vite",
+    "prebuild": "node extract.cjs",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"

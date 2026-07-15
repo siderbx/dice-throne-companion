@@ -3,7 +3,7 @@ const path = require('path');
 
 const htmlContent = fs.readFileSync(path.join(__dirname, '../Dice Throne Companion - Hi-Fi.dc.html'), 'utf-8');
 
-// Find all data arrays based on variable name
+// Find all data arrays/objects based on variable name
 const variablesToExtract = [
   'RULES_DATA',
   'STATUS_DEFS',
@@ -17,17 +17,20 @@ let constantsFile = '';
 
 for (const varName of variablesToExtract) {
   // Try to find var, let, or const followed by the variable name
-  const regex = new RegExp(`(?:const|let|var)?\\s*${varName}\\s*=\\s*(\\[[\\s\\S]*?\\])\\s*;`, 'm');
+  // Captures both Objects {...} and Arrays [...]
+  const regex = new RegExp(`(?:const|let|var)?\\s*${varName}\\s*=\\s*([\\{\\[][\\s\\S]*?[\\}\\]])\\s*;`, 'm');
   const match = htmlContent.match(regex);
+  
   if (match) {
     constantsFile += `export const ${varName} = ${match[1]};\n\n`;
   } else {
-    console.log(`Could not find ${varName}`);
     // Try alternate regex without ending semicolon
-    const altRegex = new RegExp(`(?:const|let|var)?\\s*${varName}\\s*=\\s*(\\[[\\s\\S]*?\\])\\s*\\n`, 'm');
+    const altRegex = new RegExp(`(?:const|let|var)?\\s*${varName}\\s*=\\s*([\\{\\[][\\s\\S]*?[\\}\\]])\\s*\\n`, 'm');
     const altMatch = htmlContent.match(altRegex);
     if(altMatch) {
        constantsFile += `export const ${varName} = ${altMatch[1]};\n\n`;
+    } else {
+       console.log(`Could not find ${varName}`);
     }
   }
 }
