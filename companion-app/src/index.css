@@ -1,0 +1,96 @@
+:root {
+  /* Colors */
+  --paper: #F2ECE0;
+  --paper2: #F8F3E9;
+  --card: #FCF9F2;
+  --ink: #23201A;
+  --ink2: #6C6458;
+  --ink3: #9C9485;
+  --line: #E2DACA;
+  --line2: #ECE5D6;
+  --ember: #B23A2E;
+  --ember-soft: #F4E5DF;
+  --verd: #3C6E5C;
+  --brass: #A87E33;
+  --slate: #4D6373;
+  
+  /* Status Backgrounds & Borders */
+  --status-pos-bg: #EAF1ED;
+  --status-pos-border: #C8DFD4; /* Made up tint based on instructions */
+  --status-neg-bg: #FAF0EC;
+  --status-neg-border: #F0D5CA;
+  --status-unique-bg: #F5EEE0;
+  --status-unique-border: #E6D8C0;
+
+  /* Typography */
+  --font-display: 'Newsreader', serif;
+  --font-ui: 'Hanken Grotesk', sans-serif;
+  --font-mono: 'Spline Sans Mono', monospace;
+
+  /* Shadows */
+  --shadow-tablet: 0 50px 90px -40px rgba(40,32,20,.7), 0 8px 24px -12px rgba(0,0,0,.4);
+  --shadow-featured: 0 26px 50px -30px rgba(178,58,46,.5);
+  --shadow-dice: 0 8px 16px -8px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #1a1a1a;
+  color: var(--ink);
+  font-family: var(--font-ui);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Tablet Frame */
+.tablet-frame {
+  width: 1222px;
+  height: 862px; /* 834 + some bezel */
+  background: linear-gradient(160deg, #2a261f, #17150f);
+  border-radius: 24px;
+  box-shadow: var(--shadow-tablet);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 14px;
+}
+
+.tablet-screen {
+  width: 1194px;
+  height: 834px;
+  background-color: var(--paper);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6, .display-text {
+  font-family: var(--font-display);
+}
+
+.mono-text {
+  font-family: var(--font-mono);
+}
+
+/* Noise overlay */
+.noise-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.05;
+  filter: url(#noiseFilter);
+  z-index: 9999;
+}
