@@ -1,50 +1,35 @@
-import React from 'react';
-import { useStore } from './store';
-import './index.css';
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
-  const { state, setScreen } = useStore();
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="tablet-frame">
-      <div className="tablet-screen">
-        <div className="noise-overlay">
-          {/* SVG filter for noise */}
-          <svg style={{ display: 'none' }}>
-            <filter id="noiseFilter">
-              <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
-            </filter>
-          </svg>
-        </div>
-        
-        <header style={{ padding: '20px', borderBottom: '1px solid var(--line)', display: 'flex', gap: '10px' }}>
-          {['hub', 'missions', 'setup', 'play', 'trackers', 'perks', 'status', 'rules', 'adventures', 'pvp'].map((screenName) => (
-            <button 
-              key={screenName}
-              onClick={() => setScreen(screenName)}
-              style={{
-                padding: '8px 16px',
-                background: state.screen === screenName ? 'var(--ember)' : 'var(--paper2)',
-                color: state.screen === screenName ? 'white' : 'var(--ink)',
-                border: '1px solid var(--line)',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontFamily: 'var(--font-ui)',
-                fontWeight: 600
-              }}
-            >
-              {screenName.toUpperCase()}
-            </button>
-          ))}
-        </header>
-
-        <main style={{ padding: '40px', flex: 1, overflowY: 'auto' }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '20px' }}>Current Screen: {state.screen}</h1>
-          <p>This is a placeholder for the <b>{state.screen}</b> screen.</p>
-        </main>
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo img" alt="React logo" />
+        </a>
       </div>
-    </div>
-  );
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
 
-export default App;
+export default App
