@@ -5,20 +5,23 @@ import { PvP } from './components/PvP'
 import { Rules } from './components/Rules'
 import { StatusEffects } from './components/StatusEffects'
 import { MissionsDashboard } from './components/MissionsDashboard'
+import { Trackers } from './components/Trackers'
+import { Perks } from './components/Perks'
 import './App.css'
 
 function App() {
-  // Destructure currentView directly from your custom store context hook
-  const { currentView } = useStore()
+  const { state } = useStore()
 
   return (
     <div className="app-container">
-      {currentView === 'hub' && <Hub />}
-      {currentView === 'adventures' && <Adventures />}
-      {currentView === 'pvp' && <PvP />}
-      {currentView === 'missions' && <MissionsDashboard />}
-      {currentView === 'rules' && <Rules />}
-      {currentView === 'status-effects' && <StatusEffects />}
+      {state.screen === 'hub' && <Hub />}
+      {state.screen === 'adventures' && <Adventures />}
+      {state.screen === 'pvp' && <PvP />}
+      {state.screen === 'missions' && <MissionsDashboard />}
+      {state.screen === 'rules' && <Rules />}
+      {(state.screen === 'status-effects' || state.screen === 'statuses') && <StatusEffects />}
+      {state.screen === 'trackers' && <Trackers />}
+      {state.screen === 'perks' && <Perks />}
     </div>
   )
 }
