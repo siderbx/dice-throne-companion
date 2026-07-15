@@ -1,34 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useStore } from './store'
+import Hub from './components/Hub'
+import Adventures from './components/Adventures'
+import PvP from './components/PvP'
+import Rules from './components/Rules'
+import StatusEffects from './components/StatusEffects'
+import MissionsDashboard from './components/MissionsDashboard'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const currentView = useStore((state) => state.currentView)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo img" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="app-container">
+      {currentView === 'hub' && <Hub />}
+      {currentView === 'adventures' && <Adventures />}
+      {currentView === 'pvp' && <PvP />}
+      {currentView === 'missions' && <MissionsDashboard />}
+      {currentView === 'rules' && <Rules />}
+      {currentView === 'status-effects' && <StatusEffects />}
+    </div>
   )
 }
 
