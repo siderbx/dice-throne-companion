@@ -1,33 +1,31 @@
 import React, { useState } from 'react';
 import { useStore } from '../store';
-
-const PHASES = [
-  'Pass / Start',
-  'Movement',
-  'Hero Phase 1',
-  'Target & Resolve',
-  'Hero Phase 2',
-  'Enemy Upkeep',
-  'Enemy Roll',
-  'Crisis Clock'
-];
+import { MISSION_SIDE1_PHASES, MISSION_SIDE2_PHASES } from '../data/missionPhases';
+import { BossHpTracker } from './BossHpTracker';
 
 export const PlayMissions: React.FC = () => {
   const { state, setState, setScreen } = useStore();
-  const [activePhaseIdx, setActivePhaseIdx] = useState(6); // Default to Enemy Roll for demo
+  const [side, setSide] = useState<1 | 2>(1);
+  const [activePhaseIdx, setActivePhaseIdx] = useState(0);
+
+  const phases = side === 1 ? MISSION_SIDE1_PHASES : MISSION_SIDE2_PHASES;
+  const activePhase = phases[activePhaseIdx];
+
+  const redDice = 2;
+  const blackDice = 1 + state.selectedCount;
 
   return (
     <div style={{ display: 'flex', height: '100%', borderTop: '1px solid var(--line)' }}>
-      
+
       {/* Left Rail: Phases */}
-      <div style={{ width: '250px', borderRight: '1px solid var(--line)', padding: '24px 0', background: 'var(--card)' }}>
-        <h3 className="mono-text" style={{ fontSize: '0.8rem', color: 'var(--ink3)', padding: '0 24px', marginBottom: '16px' }}>ROUND {state.round} PHASES</h3>
-        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column' }}>
-          {PHASES.map((phase, idx) => {
+      <div style={{ width: '250px', borderRight: '1px solid var(--line)', padding: '24px 0', background: 'var(--card)', display: 'flex', flexDirection: 'column' }}>
+        <h3 className="mono-text" style={{ fontSize: '0.8rem', color: 'var(--ink3)', padding: '0 24px', marginBottom: '16px' }}>ROUND {state.round} · SIDE {side} PHASES</h3>
+        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', flex: 1 }}>
+          {phases.map((phase, idx) => {
             const isActive = idx === activePhaseIdx;
             return (
-              <li 
-                key={phase}
+              <li
+                key={phase.name}
                 onClick={() => setActivePhaseIdx(idx)}
                 style={{
                   padding: '12px 24px',
@@ -39,50 +37,69 @@ export const PlayMissions: React.FC = () => {
                   transition: 'background 0.2s, color 0.2s'
                 }}
               >
-                {phase}
+                {idx + 1}. {phase.name}
               </li>
             );
           })}
         </ul>
+        <div style={{ padding: '0 24px' }}>
+          <button
+            onClick={() => { setSide(side === 1 ? 2 : 1); setActivePhaseIdx(0); }}
+            style={{ width: '100%', padding: '12px', background: 'var(--paper2)', border: '1px solid var(--line)', borderRadius: '8px', cursor: 'pointer', fontWeight: 600 }}
+          >
+            Switch: Side {side === 1 ? 2 : 1}
+          </button>
+        </div>
       </div>
 
-      {/* Center: Phase Detail (Mock Enemy Roll) */}
-      <div style={{ flex: 1, padding: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <h2 style={{ fontSize: '2.5rem', marginBottom: '8px' }}>{PHASES[activePhaseIdx]}</h2>
-        <p style={{ color: 'var(--ink2)', marginBottom: '40px' }}>Resolve effects and roll the enemy dice pool.</p>
+      {/* Center: Phase Detail */}
+      <div style={{ flex: 1, padding: '40px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+        <h2 style={{ fontSize: '2.5rem', marginBottom: '8px' }}>{activePhase.name}</h2>
+        <p style={{ color: 'var(--ink2)', fontSize: '1.1rem', marginBottom: '32px' }}>{activePhase.subtitle}</p>
 
-        {activePhaseIdx === 6 ? (
-          <div style={{ width: '100%', maxWidth: '600px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-              {/* Mock Dice Tiles */}
-              {['1', '5', '3', 'Hench'].map((die, i) => (
-                <div key={i} className="mono-text" style={{ 
-                  width: '80px', height: '80px', borderRadius: '12px', background: 'var(--ember)', color: 'white', display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.5rem', fontWeight: 700, boxShadow: 'var(--shadow-dice)'
-                }}>
-                  {die}
-                </div>
-              ))}
-            </div>
+        <div style={{ background: 'var(--paper2)', border: '1px solid var(--line)', borderRadius: '16px', padding: '32px', marginBottom: '24px' }}>
+          <p style={{ fontSize: '1.1rem', lineHeight: 1.6, color: 'var(--ink)' }}>
+            {activePhase.body}
+          </p>
+        </div>
 
-            <div style={{ background: 'var(--paper2)', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
-              <h4 style={{ fontSize: '1.2rem', marginBottom: '16px' }}>Pending Attacks</h4>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--line)', paddingBottom: '12px' }}>
-                <div>
-                  <span style={{ fontWeight: 600 }}>Minion Strike</span>
-                  <span style={{ color: 'var(--ember)', marginLeft: '8px', fontWeight: 700 }}>4 DMG</span>
-                </div>
-                <button style={{ background: 'var(--card)', border: '1px solid var(--line)', padding: '8px 16px', borderRadius: '6px', cursor: 'pointer', fontWeight: 600 }}>Defends</button>
-              </div>
-            </div>
+        {activePhase.callout && (
+          <div style={{ background: 'var(--ember-soft)', borderLeft: '4px solid var(--ember)', borderRadius: '8px', padding: '20px 24px', marginBottom: '24px', fontStyle: 'italic', color: 'var(--ink)', fontSize: '1.05rem' }}>
+            {activePhase.callout}
           </div>
-        ) : (
-          <div style={{ color: 'var(--ink3)' }}>Select 'Enemy Roll' to see details.</div>
         )}
+
+        {activePhase.bullets?.length > 0 && (
+          <ul style={{ marginBottom: '24px', paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {activePhase.bullets.map((b, i) => (
+              <li key={i} style={{ fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.5 }}>{b}</li>
+            ))}
+          </ul>
+        )}
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto', paddingTop: '24px' }}>
+          <button
+            disabled={activePhaseIdx === 0}
+            onClick={() => setActivePhaseIdx(p => p - 1)}
+            style={{ padding: '12px 24px', background: 'var(--card)', border: '1px solid var(--line)', borderRadius: '8px', cursor: activePhaseIdx === 0 ? 'not-allowed' : 'pointer', opacity: activePhaseIdx === 0 ? 0.5 : 1, fontWeight: 600 }}
+          >
+            ← Previous
+          </button>
+          <button
+            disabled={activePhaseIdx === phases.length - 1}
+            onClick={() => setActivePhaseIdx(p => p + 1)}
+            style={{ padding: '12px 24px', background: 'var(--card)', border: '1px solid var(--line)', borderRadius: '8px', cursor: activePhaseIdx === phases.length - 1 ? 'not-allowed' : 'pointer', opacity: activePhaseIdx === phases.length - 1 ? 0.5 : 1, fontWeight: 600 }}
+          >
+            Next →
+          </button>
+        </div>
       </div>
 
       {/* Right Rail: Crisis & Stats */}
       <div style={{ width: '300px', borderLeft: '1px solid var(--line)', padding: '24px', background: 'var(--card)', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-        
+
+        {side === 2 && <BossHpTracker />}
+
         {/* Crisis Clock Module */}
         <div>
           <h3 className="mono-text" style={{ fontSize: '0.8rem', color: 'var(--ink3)', marginBottom: '12px' }}>CRISIS CLOCK</h3>
@@ -96,7 +113,7 @@ export const PlayMissions: React.FC = () => {
               {state.crisisClock}
             </div>
           </div>
-          <button 
+          <button
             onClick={() => setState(prev => ({ ...prev, crisisClock: Math.min(8, prev.crisisClock + state.selectedCount) }))}
             style={{ width: '100%', background: 'transparent', border: '1px solid var(--line)', padding: '12px', borderRadius: '8px', marginTop: '16px', cursor: 'pointer', fontWeight: 600 }}
           >
@@ -104,16 +121,16 @@ export const PlayMissions: React.FC = () => {
           </button>
         </div>
 
-        {/* Enemy Pool Summary */}
+        {/* Enemy Dice Pool */}
         <div>
-          <h3 className="mono-text" style={{ fontSize: '0.8rem', color: 'var(--ink3)', marginBottom: '12px' }}>ENEMY POOL</h3>
+          <h3 className="mono-text" style={{ fontSize: '0.8rem', color: 'var(--ink3)', marginBottom: '12px' }}>ENEMY DICE POOL</h3>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{ background: 'var(--paper2)', padding: '4px 12px', borderRadius: '16px', border: '1px solid var(--line2)', fontSize: '0.9rem', fontWeight: 600 }}>3 Minion</span>
-            <span style={{ background: 'var(--paper2)', padding: '4px 12px', borderRadius: '16px', border: '1px solid var(--line2)', fontSize: '0.9rem', fontWeight: 600 }}>1 Henchman</span>
+            <span style={{ background: 'var(--status-neg-bg)', padding: '4px 12px', borderRadius: '16px', border: '1px solid var(--status-neg-border)', fontSize: '0.9rem', fontWeight: 600 }}>{redDice} Red</span>
+            <span style={{ background: 'var(--paper2)', padding: '4px 12px', borderRadius: '16px', border: '1px solid var(--line2)', fontSize: '0.9rem', fontWeight: 600 }}>{blackDice} Black</span>
           </div>
         </div>
-        
-        <button 
+
+        <button
           onClick={() => setScreen('trackers')}
           style={{ width: '100%', background: 'var(--card)', border: '1px solid var(--line)', padding: '12px', borderRadius: '8px', marginTop: 'auto', cursor: 'pointer', fontWeight: 600 }}
         >

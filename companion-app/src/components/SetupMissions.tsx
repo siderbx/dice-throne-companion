@@ -5,15 +5,12 @@ export const SetupMissions: React.FC = () => {
   const { state, setState, setScreen } = useStore();
 
   const handleCountSelect = (count: number) => {
-    // Also reset hero arrays
     const newNames = Array(count).fill('').map((_, i) => state.heroNames[i] || `Hero ${i + 1}`);
-    const newHp = Array(count).fill(50); // Derived from rules in reality
-    
+
     setState(prev => ({
       ...prev,
       selectedCount: count,
-      heroNames: newNames,
-      heroHp: newHp
+      heroNames: newNames
     }));
   };
 
@@ -23,9 +20,11 @@ export const SetupMissions: React.FC = () => {
     setState(prev => ({ ...prev, heroNames: newNames }));
   };
 
-  // Derived values based on rules (mocked for simplicity here, would pull from RULES_DATA)
-  const maxHp = state.selectedCount === 1 ? 50 : state.selectedCount === 2 ? 40 : state.selectedCount === 3 ? 35 : 30;
+  // Starting Health by hero count, per DTM_Rulebook_master_current_2024.06.13, pg. 4 "Choosing a Mission"
+  const startingHp = [45, 30, 25, 20][state.selectedCount - 1] || 20;
   const crisisRate = state.selectedCount;
+  const redDice = 2;
+  const blackDice = 1 + state.selectedCount;
 
   return (
     <div style={{ display: 'flex', height: '100%', padding: '40px', gap: '60px' }}>
@@ -103,12 +102,12 @@ export const SetupMissions: React.FC = () => {
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '40px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dotted var(--line)', paddingBottom: '8px' }}>
-              <span style={{ color: 'var(--ink2)' }}>Starting HP</span>
-              <span style={{ fontWeight: 600 }}>{maxHp}</span>
+              <span style={{ color: 'var(--ink2)' }}>Starting HP (set on your Health Dial)</span>
+              <span style={{ fontWeight: 600 }}>{startingHp}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dotted var(--line)', paddingBottom: '8px' }}>
               <span style={{ color: 'var(--ink2)' }}>Enemy Dice Pool</span>
-              <span style={{ fontWeight: 600 }}>3x Minion, 1x Henchman</span>
+              <span style={{ fontWeight: 600 }}>{redDice} Red, {blackDice} Black</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px dotted var(--line)', paddingBottom: '8px' }}>
               <span style={{ color: 'var(--ink2)' }}>Crisis Advance Rate</span>

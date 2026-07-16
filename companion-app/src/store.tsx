@@ -18,13 +18,14 @@ export type Screen =
 export interface AppState {
   screen: Screen;
   selectedCount: number;
-  heroHp: number[];
   heroMom: number[];
   heroStatuses: Record<string, number>[];
   crisisClock: number;
   clockTriggered: boolean;
   round: number;
   heroNames: string[];
+  bossHp: number;
+  bossMaxHp: number;
   activePerkPlayer: number;
   perkPlayers: any[];
   sessionPP: number;
@@ -39,13 +40,14 @@ export interface AppState {
 const defaultState: AppState = {
   screen: 'hub',
   selectedCount: 1,
-  heroHp: [50],
   heroMom: [2],
   heroStatuses: [{}],
   crisisClock: 0,
   clockTriggered: false,
   round: 1,
   heroNames: ['Hero 1'],
+  bossHp: 50,
+  bossMaxHp: 50,
   activePerkPlayer: 0,
   perkPlayers: [],
   sessionPP: 0,
