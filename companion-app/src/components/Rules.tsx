@@ -1,31 +1,41 @@
 import React, { useState } from 'react';
-import { useStore } from '../store';
+import { RULES_DATA } from '../data/constants';
 
-const ALL_RULES = [
-  { id: 'r1', cat: 'Core', title: 'Targeting', summary: 'How to pick targets in multiplayer.', body: 'When selecting a target for an attack, if multiple opponents are eligible, you must choose one before resolving damage. You cannot split damage unless specifically stated.', seeAlso: ['r2'] },
-  { id: 'r2', cat: 'Core', title: 'Defensive Roll', summary: 'Rolling defense dice.', body: 'You may roll defense dice when attacked. This is done after the offensive roll is finalized but before damage is applied.' },
-  { id: 'm1', cat: 'Missions', title: 'Crisis Clock', summary: 'The ticking timer of doom.', body: 'The crisis clock advances every round by the number of active heroes. If it reaches 8, it triggers a crisis event.' },
-  { id: 'a1', cat: 'Adventures', title: 'Witch Keys', summary: 'Opening locked doors.', body: 'You can hold up to 3 Witch Keys. They persist between scenarios and are used to unlock loot chests.' },
-];
+interface Rule {
+  id: string;
+  cat: string;
+  title: string;
+  summary: string;
+  body: string;
+  callout: string | null;
+  bullets: string[];
+  seeAlso: { label: string; id: string }[];
+}
+
+const RULES = RULES_DATA as Rule[];
+const CATEGORIES = ['All', 'Core', 'Missions', 'Adventures', 'PVP'];
 
 export const Rules: React.FC = () => {
   const [category, setCategory] = useState('All');
-  const [selectedRule, setSelectedRule] = useState(ALL_RULES[0]);
+  const [selectedRule, setSelectedRule] = useState(RULES[0]);
 
-  const filteredRules = ALL_RULES.filter(r => category === 'All' || r.cat === category);
+  const matchesCategory = (rule: Rule, cat: string) =>
+    cat === 'All' || rule.cat.toLowerCase() === cat.toLowerCase();
+
+  const filteredRules = RULES.filter(r => matchesCategory(r, category));
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
-      
+
       {/* Left Rail: Categories */}
       <div style={{ width: '220px', borderRight: '1px solid var(--line)', padding: '24px 0', background: 'var(--paper2)' }}>
         <h3 className="mono-text" style={{ fontSize: '0.8rem', color: 'var(--ink3)', padding: '0 24px', marginBottom: '16px' }}>CATEGORIES</h3>
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column' }}>
-          {['All', 'Core', 'Missions', 'Adventures', 'PVP'].map((cat) => {
+          {CATEGORIES.map((cat) => {
             const isActive = category === cat;
-            const count = cat === 'All' ? ALL_RULES.length : ALL_RULES.filter(r => r.cat === cat).length;
+            const count = RULES.filter(r => matchesCategory(r, cat)).length;
             return (
-              <li 
+              <li
                 key={cat}
                 onClick={() => setCategory(cat)}
                 style={{
@@ -52,7 +62,7 @@ export const Rules: React.FC = () => {
         {filteredRules.map(rule => {
           const isSelected = selectedRule.id === rule.id;
           return (
-            <div 
+            <div
               key={rule.id}
               onClick={() => setSelectedRule(rule)}
               style={{
@@ -75,31 +85,45 @@ export const Rules: React.FC = () => {
       <div style={{ flex: 1, padding: '60px', overflowY: 'auto' }}>
         <div className="mono-text" style={{ fontSize: '0.9rem', color: 'var(--ember)', marginBottom: '16px', letterSpacing: '1px', fontWeight: 600 }}>{selectedRule.cat.toUpperCase()}</div>
         <h1 style={{ fontSize: '3rem', marginBottom: '40px' }}>{selectedRule.title}</h1>
-        
-        <p style={{ fontSize: '1.2rem', lineHeight: 1.6, color: 'var(--ink)', marginBottom: '40px' }}>
+
+        <p style={{ fontSize: '1.2rem', lineHeight: 1.6, color: 'var(--ink)', marginBottom: selectedRule.callout || selectedRule.bullets?.length ? '32px' : '40px' }}>
           {selectedRule.body}
         </p>
 
-        {selectedRule.seeAlso && (
+        {selectedRule.callout && (
+          <div style={{ background: 'var(--ember-soft)', borderLeft: '4px solid var(--ember)', borderRadius: '8px', padding: '20px 24px', marginBottom: '32px', fontStyle: 'italic', color: 'var(--ink)', fontSize: '1.05rem' }}>
+            {selectedRule.callout}
+          </div>
+        )}
+
+        {selectedRule.bullets?.length > 0 && (
+          <ul style={{ marginBottom: '40px', paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {selectedRule.bullets.map((b, i) => (
+              <li key={i} style={{ fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.5 }}>{b}</li>
+            ))}
+          </ul>
+        )}
+
+        {selectedRule.seeAlso?.length > 0 && (
           <div>
             <h4 className="mono-text" style={{ fontSize: '0.9rem', color: 'var(--ink3)', marginBottom: '16px' }}>SEE ALSO</h4>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              {selectedRule.seeAlso.map(id => {
-                const target = ALL_RULES.find(r => r.id === id);
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {selectedRule.seeAlso.map(link => {
+                const target = RULES.find(r => r.id === link.id);
                 return (
-                  <button 
-                    key={id}
+                  <button
+                    key={link.id}
                     onClick={() => {
-                       if(target) {
-                         setCategory('All');
-                         setSelectedRule(target);
-                       }
+                      if (target) {
+                        setCategory('All');
+                        setSelectedRule(target);
+                      }
                     }}
                     style={{ background: 'var(--paper2)', border: '1px solid var(--line)', padding: '8px 16px', borderRadius: '20px', cursor: 'pointer', fontWeight: 600, color: 'var(--ink)' }}
                   >
-                    {target?.title}
+                    {target?.title || link.label}
                   </button>
-                )
+                );
               })}
             </div>
           </div>

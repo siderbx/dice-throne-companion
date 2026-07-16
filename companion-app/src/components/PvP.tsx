@@ -1,22 +1,6 @@
 import React from 'react';
 import { useStore } from '../store';
-
-const MOCK_STATUSES = [
-  { id: 'bleed', label: 'Bleed', type: 'neg' },
-  { id: 'poison', label: 'Poison', type: 'neg' },
-  { id: 'stun', label: 'Stun', type: 'neg' },
-  { id: 'burn', label: 'Burn', type: 'neg' },
-  { id: 'blind', label: 'Blind', type: 'neg' },
-  { id: 'knockdown', label: 'Knockdown', type: 'neg' },
-  { id: 'evasive', label: 'Evasive', type: 'pos' },
-  { id: 'flight', label: 'Flight', type: 'pos' },
-  { id: 'protect', label: 'Protect', type: 'pos' },
-  { id: 'heal', label: 'Heal', type: 'pos' },
-  { id: 'bounty', label: 'Bounty', type: 'unique' },
-  { id: 'mark', label: 'Mark', type: 'unique' },
-  { id: 'hex', label: 'Hex', type: 'unique' },
-  { id: 'targeted', label: 'Targeted', type: 'unique' }
-];
+import { STATUS_LIST, statusId, type StatusDef } from '../lib/status';
 
 export const PvP: React.FC = () => {
   const { state, setState } = useStore();
@@ -54,10 +38,11 @@ export const PvP: React.FC = () => {
     updatePvP({ players: newPlayers });
   };
 
-  const handleStatusTap = (index: number, statusId: string) => {
+  const handleStatusTap = (index: number, status: StatusDef) => {
+    const id = statusId(status.name);
     const newPlayers = [...players];
-    const current = newPlayers[index].statuses[statusId] || 0;
-    newPlayers[index].statuses[statusId] = current >= 3 ? 0 : current + 1;
+    const current = newPlayers[index].statuses[id] || 0;
+    newPlayers[index].statuses[id] = current >= status.limit ? 0 : current + 1;
     updatePvP({ players: newPlayers });
   };
 
@@ -244,24 +229,26 @@ export const PvP: React.FC = () => {
 
             {/* Status Effects */}
             <div style={{ padding: '16px', flex: 1, display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', gap: '8px', background: 'var(--paper2)' }}>
-              {MOCK_STATUSES.map(status => {
-                const count = player.statuses[status.id] || 0;
+              {STATUS_LIST.map(status => {
+                const id = statusId(status.name);
+                const count = player.statuses[id] || 0;
                 const isActive = count > 0;
-                
+
                 let bgVar = 'transparent';
                 let borderVar = 'var(--line)';
                 let colorVar = 'var(--ink2)';
-                
+
                 if (isActive) {
                   if (status.type === 'neg') { bgVar = 'var(--status-neg-bg)'; borderVar = 'var(--status-neg-border)'; colorVar = 'var(--ember)'; }
                   if (status.type === 'pos') { bgVar = 'var(--status-pos-bg)'; borderVar = 'var(--status-pos-border)'; colorVar = 'var(--verd)'; }
-                  if (status.type === 'unique') { bgVar = 'var(--status-unique-bg)'; borderVar = 'var(--status-unique-border)'; colorVar = 'var(--brass)'; }
+                  if (status.type === 'uniq') { bgVar = 'var(--status-unique-bg)'; borderVar = 'var(--status-unique-border)'; colorVar = 'var(--brass)'; }
                 }
 
                 return (
-                  <div 
-                    key={status.id}
-                    onClick={() => handleStatusTap(i, status.id)}
+                  <div
+                    key={id}
+                    title={status.desc}
+                    onClick={() => handleStatusTap(i, status)}
                     style={{
                       padding: '6px 12px',
                       borderRadius: '20px',
@@ -277,7 +264,7 @@ export const PvP: React.FC = () => {
                       gap: '6px'
                     }}
                   >
-                    {status.label} {isActive && <span style={{ background: 'rgba(0,0,0,0.1)', borderRadius: '50%', width: '18px', height: '18px', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.75rem' }}>{count}</span>}
+                    {status.name} {isActive && <span style={{ background: 'rgba(0,0,0,0.1)', borderRadius: '50%', width: '18px', height: '18px', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.75rem' }}>{count}</span>}
                   </div>
                 );
               })}
