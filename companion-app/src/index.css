@@ -5,7 +5,7 @@
   --card: #FCF9F2;
   --ink: #23201A;
   --ink2: #6C6458;
-  --ink3: #9C9485;
+  --ink3: #6D685D;
   --line: #E2DACA;
   --line2: #ECE5D6;
   --ember: #B23A2E;
@@ -40,34 +40,18 @@
 }
 
 body {
-  background-color: #1a1a1a;
+  background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-ui);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
   margin: 0;
 }
 
-/* Tablet Frame */
-.tablet-frame {
-  width: 1222px;
-  height: 862px; /* 834 + some bezel */
-  background: linear-gradient(160deg, #2a261f, #17150f);
-  border-radius: 24px;
-  box-shadow: var(--shadow-tablet);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 14px;
-}
-
-.tablet-screen {
-  width: 1194px;
-  height: 834px;
+.app-container {
+  width: 100%;
+  height: 100vh;
   background-color: var(--paper);
-  border-radius: 12px;
+  color: var(--ink);
   overflow: hidden;
   position: relative;
   display: flex;
