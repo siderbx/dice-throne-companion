@@ -8,6 +8,7 @@ Running log of what's done and what's next on the `companion-app` React rebuild 
 - [ ] Continue the rulebook accuracy audit — only Missions/Adventures Boss-related entries and `dtm-difficulty` have been spot-checked so far (see 2026-07-16 entry below). PVP, core, and the rest of Missions/Adventures still need a pass against `G:\My Drive\Gaming\Dice Throne\*.pdf`.
 - [ ] Missions Boss Fight HP numbers (Boss starting HP by scenario) aren't in any provided data source — `BossHpTracker`'s max defaults to 50 and must be hand-set from the physical Scenario Card each session.
 - [ ] Adventures "Boss vs Many"/"Boss vs Boss" entries have a couple of numbers pdftotext couldn't extract cleanly (icon-adjacent digits, e.g. exact shared Health dial starting value) — worth a manual read of `Dice_Throne_Adventures_-_Rulebook_-_2022.02.28.pdf` pg. ~13 (print, not just text-extract) to confirm.
+- [ ] Build out Hub footer's "Tokens" and "Dice & Symbols" links (`Hub.tsx` ~line 84-86) — currently dead stubs, styled clickable but no `onClick` and no target screen. https://dice-throne.rulepop.com/ likely has token images and dice/symbol reference art to source this from.
 
 ## Done
 
