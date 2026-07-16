@@ -4,7 +4,6 @@ Running log of what's done and what's next on the `companion-app` React rebuild 
 
 ## To Do
 
-- [ ] Tighten up loose typing in `store.tsx` (`pvp: any`, `adv: any`, `perkPlayers: any[]`)
 - [ ] Confirm Cloudflare production deploy picked up `92a03e8`
 - [ ] Change the background (theme/visual — details TBD)
 - [ ] Audit the codebase for leftover/dead code and remove it
@@ -15,6 +14,7 @@ Running log of what's done and what's next on the `companion-app` React rebuild 
 
 ## Done
 
+- **2026-07-16** — Tightened up loose typing in `store.tsx`: replaced `pvp: any`, `adv: any`, and `perkPlayers: any[]` with real `PvpState`/`PvpPlayer`, `AdvState`/`AdvSession`, and `PlayerPerks` interfaces derived from how `PvP.tsx`, `Adventures.tsx`, `AdventuresSetup.tsx`, and `Perks.tsx` actually use them. `Perks.tsx` and `Adventures.tsx` had each declared their own local copy of these shapes (`PlayerPerks`, `Session`) — deduped those to import from `store.tsx` instead. Along the way, fixed a real bug in `AdventuresSetup.tsx`'s campaign-start seeding: `Array(8).fill({...})` was filling all 8 scenario rows with references to the *same* object, so editing one row's Win/Loss/Score would silently mutate all the others; switched to `Array.from({ length: 8 }, () => ({...}))` for independent objects. Verified `tsc -b` passes clean and exercised PvP (start a match), Adventures (seed campaign, toggle Win/Loss on one row only), and Perks in the browser with no console errors.
 - **2026-07-16** — Fixed broken screen routing in `companion-app`. Four screens (`SetupMissions`, `PlayMissions`, `AdventuresSetup`, `AdventuresPlay`) were built but unreachable because `App.tsx` had no route for their `screen` values (`setup`, `play`, `advSetup`, `advPlay`), and a couple of `setScreen('status')` calls didn't match the `'status-effects'` branch. Added a `Screen` union type in `store.tsx` so `AppState.screen`/`setScreen` catch mismatches at compile time, added the missing routes in `App.tsx`, and fixed the mismatched calls in `Hub.tsx` / `MissionsDashboard.tsx`. Verified all four screens reachable via their real navigation paths in the browser. Merged `claude/code-structure-review-a6cf04` → `main` (fast-forward, `92a03e8`).
 - **2026-07-16** — Wired up placeholder/mocked data across the app. Turned out `constants.ts` already had all six real data sets extracted from the design file (`RULES_DATA`, `STATUS_DEFS`, `PERK_DEFS`, `HERO_LIST`, `CRAWL_PHASES`, `BOSS_PHASES`) but almost nothing imported them:
   - `StatusEffects.tsx` and the status chips in `Trackers.tsx`/`PvP.tsx` now use the real 22-entry `STATUS_DEFS` (added `src/lib/status.ts` as the shared source instead of duplicating a mock list in three places) — stack limits are now per-status instead of a hardcoded 3.

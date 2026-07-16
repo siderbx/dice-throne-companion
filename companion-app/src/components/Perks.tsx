@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStore } from '../store';
+import { useStore, type PlayerPerks } from '../store';
 import { PERK_DEFS } from '../data/constants';
 
 interface PerkDef {
@@ -9,11 +9,6 @@ interface PerkDef {
   desc: string;
   cols: number[];
   requires: string | null;
-}
-
-interface PlayerPerks {
-  name: string;
-  circles: Record<string, number[]>; // perkId -> filled count per difficulty column
 }
 
 const PERKS = PERK_DEFS as PerkDef[];

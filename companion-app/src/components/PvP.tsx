@@ -1,10 +1,10 @@
 import React from 'react';
-import { useStore } from '../store';
+import { useStore, type PvpPlayer, type PvpState } from '../store';
 import { STATUS_LIST, statusId, type StatusDef } from '../lib/status';
 
 export const PvP: React.FC = () => {
   const { state, setState } = useStore();
-  
+
   // Initialize default state if missing
   const pvp = state.pvp || {};
   const isSetup = pvp.isSetup === undefined ? true : pvp.isSetup;
@@ -12,12 +12,12 @@ export const PvP: React.FC = () => {
   const startingHp = pvp.startingHp || 50;
   const players = pvp.players || [];
 
-  const updatePvP = (updates: any) => {
+  const updatePvP = (updates: Partial<PvpState>) => {
     setState(prev => ({ ...prev, pvp: { ...prev.pvp, ...updates } }));
   };
 
   const startMatch = () => {
-    const newPlayers = Array(playerCount).fill(0).map((_, i) => ({
+    const newPlayers: PvpPlayer[] = Array(playerCount).fill(0).map((_, i) => ({
       name: `Player ${i + 1}`,
       hp: startingHp,
       cp: 2,
@@ -164,7 +164,7 @@ export const PvP: React.FC = () => {
       </div>
 
       <div style={{ display: 'flex', flex: 1, padding: '24px', gap: '24px', overflowX: 'auto' }}>
-        {players.map((player: any, i: number) => (
+        {players.map((player: PvpPlayer, i: number) => (
           <div key={i} style={{ flex: '0 0 auto', minWidth: '320px', maxWidth: '400px', background: 'var(--card)', border: '1px solid var(--line)', borderRadius: '16px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
             
             {/* Header */}

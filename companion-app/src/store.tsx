@@ -14,6 +14,43 @@ export type Screen =
   | 'trackers'
   | 'perks';
 
+export interface PlayerPerks {
+  name: string;
+  circles: Record<string, number[]>; // perkId -> filled count per difficulty column
+}
+
+export interface PvpPlayer {
+  name: string;
+  hp: number;
+  cp: number;
+  statuses: Record<string, number>;
+}
+
+export interface PvpState {
+  isSetup?: boolean;
+  playerCount?: number;
+  startingHp?: number;
+  players?: PvpPlayer[];
+  round?: number;
+}
+
+export interface AdvSession {
+  result: 'win' | 'loss' | null;
+  remainingSalves: number;
+  goldUnspent: number;
+  exploredAll: boolean;
+  bossLoot: number;
+  score: number;
+}
+
+export interface AdvState {
+  difficulty?: string;
+  initialSalves?: number;
+  currentSalves?: number;
+  witchKeys?: number;
+  sessions?: AdvSession[];
+}
+
 // Simplified state interface based on README
 export interface AppState {
   screen: Screen;
@@ -27,14 +64,14 @@ export interface AppState {
   bossHp: number;
   bossMaxHp: number;
   activePerkPlayer: number;
-  perkPlayers: any[];
+  perkPlayers: PlayerPerks[];
   sessionPP: number;
   statusFilter: string;
   rulesCategory: string;
   rulesQuery: string;
   rulesSelected: string | null;
-  pvp: any;
-  adv: any;
+  pvp: PvpState;
+  adv: AdvState;
 }
 
 const defaultState: AppState = {

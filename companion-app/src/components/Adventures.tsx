@@ -1,23 +1,14 @@
 import React from 'react';
-import { useStore } from '../store';
+import { useStore, type AdvSession } from '../store';
 
-interface Session {
-  result: 'win' | 'loss' | null;
-  remainingSalves: number;
-  goldUnspent: number;
-  exploredAll: boolean;
-  bossLoot: number;
-  score: number;
-}
-
-const emptySession = (): Session => ({ result: null, remainingSalves: 0, goldUnspent: 0, exploredAll: false, bossLoot: 0, score: 0 });
+const emptySession = (): AdvSession => ({ result: null, remainingSalves: 0, goldUnspent: 0, exploredAll: false, bossLoot: 0, score: 0 });
 
 export const Adventures: React.FC = () => {
   const { state, setState, setScreen } = useStore();
 
-  const sessions: Session[] = Array.from({ length: 8 }, (_, i) => ({ ...emptySession(), ...(state.adv?.sessions?.[i] || {}) }));
+  const sessions: AdvSession[] = Array.from({ length: 8 }, (_, i) => ({ ...emptySession(), ...(state.adv?.sessions?.[i] || {}) }));
 
-  const updateSession = (i: number, updates: Partial<Session>) => {
+  const updateSession = (i: number, updates: Partial<AdvSession>) => {
     const newSessions = sessions.map((s, idx) => idx === i ? { ...s, ...updates } : s);
     setState(prev => ({ ...prev, adv: { ...prev.adv, sessions: newSessions } }));
   };
@@ -27,7 +18,7 @@ export const Adventures: React.FC = () => {
   const setResult = (i: number, result: 'win' | 'loss') => {
     const session = sessions[i];
     const nextResult = session.result === result ? null : result;
-    const updates: Partial<Session> = { result: nextResult };
+    const updates: Partial<AdvSession> = { result: nextResult };
     if (nextResult === 'loss') updates.score = -10;
     if (nextResult === null) updates.score = 0;
     updateSession(i, updates);
