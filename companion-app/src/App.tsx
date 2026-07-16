@@ -12,7 +12,6 @@ import { SetupMissions } from './components/SetupMissions'
 import { PlayMissions } from './components/PlayMissions'
 import { Trackers } from './components/Trackers'
 import { Perks } from './components/Perks'
-import './App.css'
 
 function App() {
   const { state } = useStore()

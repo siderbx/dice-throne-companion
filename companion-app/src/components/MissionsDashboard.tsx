@@ -86,7 +86,7 @@ export const MissionsDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Hero Roster Strip (Placeholder for now) */}
+        {/* Hero Roster Strip */}
         <div style={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: '12px', padding: '20px' }}>
           <h4 className="mono-text" style={{ fontSize: '0.9rem', color: 'var(--ink3)', marginBottom: '16px' }}>CURRENT HEROES</h4>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>

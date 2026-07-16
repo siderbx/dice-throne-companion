@@ -58,7 +58,6 @@ export interface AppState {
   heroMom: number[];
   heroStatuses: Record<string, number>[];
   crisisClock: number;
-  clockTriggered: boolean;
   round: number;
   heroNames: string[];
   bossHp: number;
@@ -66,10 +65,6 @@ export interface AppState {
   activePerkPlayer: number;
   perkPlayers: PlayerPerks[];
   sessionPP: number;
-  statusFilter: string;
-  rulesCategory: string;
-  rulesQuery: string;
-  rulesSelected: string | null;
   pvp: PvpState;
   adv: AdvState;
 }
@@ -80,7 +75,6 @@ const defaultState: AppState = {
   heroMom: [2],
   heroStatuses: [{}],
   crisisClock: 0,
-  clockTriggered: false,
   round: 1,
   heroNames: ['Hero 1'],
   bossHp: 50,
@@ -88,10 +82,6 @@ const defaultState: AppState = {
   activePerkPlayer: 0,
   perkPlayers: [],
   sessionPP: 0,
-  statusFilter: 'All',
-  rulesCategory: 'All',
-  rulesQuery: '',
-  rulesSelected: null,
   pvp: {},
   adv: {}
 };
