@@ -117,7 +117,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const saved = localStorage.getItem('dt-state');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        // Always land on the Hub on load — the resume bar's "Continue Session"
+        // button is the intended way back into an in-progress screen, not a
+        // persisted raw screen value that skips the Hub entirely.
+        return { ...JSON.parse(saved), screen: 'hub' };
       } catch (e) {
         console.error('Failed to parse state from localStorage', e);
       }
