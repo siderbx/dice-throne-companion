@@ -5,12 +5,12 @@ Running log of what's done and what's next on the `companion-app` React rebuild 
 ## To Do
 
 - [ ] Confirm Cloudflare production deploy picked up `92a03e8`
-- [ ] Change the background (theme/visual — details TBD)
 - [ ] Audit the codebase for leftover/dead code and remove it
 - [ ] Simplify where possible — pass over the code looking for unnecessary complexity/duplication now that routing and typing are cleaner
 - [ ] Continue the rulebook accuracy audit — only Missions/Adventures Boss-related entries and `dtm-difficulty` have been spot-checked so far (see 2026-07-16 entry below). PVP, core, and the rest of Missions/Adventures still need a pass against `G:\My Drive\Gaming\Dice Throne\*.pdf`.
 - [ ] Missions Boss Fight HP numbers (Boss starting HP by scenario) aren't in any provided data source — `BossHpTracker`'s max defaults to 50 and must be hand-set from the physical Scenario Card each session.
 - [ ] Adventures "Boss vs Many"/"Boss vs Boss" entries have a couple of numbers pdftotext couldn't extract cleanly (icon-adjacent digits, e.g. exact shared Health dial starting value) — worth a manual read of `Dice_Throne_Adventures_-_Rulebook_-_2022.02.28.pdf` pg. ~13 (print, not just text-extract) to confirm.
+- [ ] Update Navigation
 
 ## Done
 
