@@ -100,6 +100,8 @@ interface StoreContextType {
   state: AppState;
   setState: React.Dispatch<React.SetStateAction<AppState>>;
   setScreen: (screen: Screen) => void;
+  goBack: () => void;
+  canGoBack: boolean;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -132,12 +134,25 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem('dt-state', JSON.stringify(state));
   }, [state]);
 
+  // Not persisted — always starts empty since load always lands on the Hub.
+  const [history, setHistory] = useState<Screen[]>([]);
+
   const setScreen = (screen: Screen) => {
+    if (screen === state.screen) return;
+    setHistory((h) => [...h, state.screen]);
     setState((prev) => ({ ...prev, screen }));
   };
 
+  const goBack = () => {
+    setHistory((h) => {
+      const prevScreen = h[h.length - 1] ?? 'hub';
+      setState((prev) => ({ ...prev, screen: prevScreen }));
+      return h.slice(0, -1);
+    });
+  };
+
   return (
-    <StoreContext.Provider value={{ state, setState, setScreen }}>
+    <StoreContext.Provider value={{ state, setState, setScreen, goBack, canGoBack: history.length > 0 }}>
       {children}
     </StoreContext.Provider>
   );

@@ -1,4 +1,5 @@
 import { useStore } from './store'
+import { TopNav } from './components/TopNav'
 import { Hub } from './components/Hub'
 import { Adventures } from './components/Adventures'
 import { AdventuresSetup } from './components/AdventuresSetup'
@@ -18,18 +19,21 @@ function App() {
 
   return (
     <div className="app-container">
-      {state.screen === 'hub' && <Hub />}
-      {state.screen === 'adventures' && <Adventures />}
-      {state.screen === 'advSetup' && <AdventuresSetup />}
-      {state.screen === 'advPlay' && <AdventuresPlay />}
-      {state.screen === 'pvp' && <PvP />}
-      {state.screen === 'missions' && <MissionsDashboard />}
-      {state.screen === 'setup' && <SetupMissions />}
-      {state.screen === 'play' && <PlayMissions />}
-      {state.screen === 'rules' && <Rules />}
-      {state.screen === 'status-effects' && <StatusEffects />}
-      {state.screen === 'trackers' && <Trackers />}
-      {state.screen === 'perks' && <Perks />}
+      {state.screen !== 'hub' && <TopNav />}
+      <div style={{ flex: 1, minHeight: 0, overflow: 'auto' }}>
+        {state.screen === 'hub' && <Hub />}
+        {state.screen === 'adventures' && <Adventures />}
+        {state.screen === 'advSetup' && <AdventuresSetup />}
+        {state.screen === 'advPlay' && <AdventuresPlay />}
+        {state.screen === 'pvp' && <PvP />}
+        {state.screen === 'missions' && <MissionsDashboard />}
+        {state.screen === 'setup' && <SetupMissions />}
+        {state.screen === 'play' && <PlayMissions />}
+        {state.screen === 'rules' && <Rules />}
+        {state.screen === 'status-effects' && <StatusEffects />}
+        {state.screen === 'trackers' && <Trackers />}
+        {state.screen === 'perks' && <Perks />}
+      </div>
     </div>
   )
 }
