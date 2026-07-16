@@ -1,8 +1,22 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+export type Screen =
+  | 'hub'
+  | 'pvp'
+  | 'missions'
+  | 'setup'
+  | 'play'
+  | 'adventures'
+  | 'advSetup'
+  | 'advPlay'
+  | 'rules'
+  | 'status-effects'
+  | 'trackers'
+  | 'perks';
+
 // Simplified state interface based on README
 export interface AppState {
-  screen: string;
+  screen: Screen;
   selectedCount: number;
   heroHp: number[];
   heroMom: number[];
@@ -46,7 +60,7 @@ const defaultState: AppState = {
 interface StoreContextType {
   state: AppState;
   setState: React.Dispatch<React.SetStateAction<AppState>>;
-  setScreen: (screen: string) => void;
+  setScreen: (screen: Screen) => void;
 }
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
@@ -76,7 +90,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem('dt-state', JSON.stringify(state));
   }, [state]);
 
-  const setScreen = (screen: string) => {
+  const setScreen = (screen: Screen) => {
     setState((prev) => ({ ...prev, screen }));
   };
 

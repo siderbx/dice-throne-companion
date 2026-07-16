@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStore } from '../store';
+import { useStore, type Screen } from '../store';
 
 export const MissionsDashboard: React.FC = () => {
   const { state, setScreen } = useStore();
@@ -67,13 +67,13 @@ export const MissionsDashboard: React.FC = () => {
         <div>
           <h3 style={{ fontSize: '1.5rem', marginBottom: '16px', borderBottom: '2px solid var(--line)', paddingBottom: '8px' }}>Tools</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {[
+            {([
               { label: 'Turn Guide', screen: 'play' },
               { label: 'Crisis Clock', screen: 'trackers' },
               { label: 'Trackers', screen: 'trackers' },
-              { label: 'Status Effects', screen: 'status' },
+              { label: 'Status Effects', screen: 'status-effects' },
               { label: 'Rules Lookup', screen: 'rules' },
-            ].map(tool => (
+            ] satisfies { label: string; screen: Screen }[]).map(tool => (
               <button 
                 key={tool.label}
                 onClick={() => setScreen(tool.screen)}

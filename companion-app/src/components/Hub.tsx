@@ -43,7 +43,7 @@ export const Hub: React.FC = () => {
           </button>
 
           <button 
-            onClick={() => setScreen('adventures')}
+            onClick={() => setScreen('advSetup')}
             style={{ flex: 1, padding: '32px', borderRadius: '16px', background: 'var(--card)', border: '1px solid var(--line)', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '16px' }}
           >
             <h2 style={{ fontSize: '2rem' }}>Adventures</h2>
@@ -79,7 +79,7 @@ export const Hub: React.FC = () => {
 
       {/* Footer Strip */}
       <footer style={{ display: 'flex', justifyContent: 'center', gap: '32px', padding: '20px', borderTop: '1px solid var(--line)', color: 'var(--ink2)', fontSize: '0.9rem', fontWeight: 500 }}>
-        <span style={{ cursor: 'pointer' }} onClick={() => setScreen('status')}>Status Effects</span>
+        <span style={{ cursor: 'pointer' }} onClick={() => setScreen('status-effects')}>Status Effects</span>
         <span style={{ cursor: 'pointer' }} onClick={() => setScreen('rules')}>All Rules</span>
         <span style={{ cursor: 'pointer' }}>Tokens</span>
         <span style={{ cursor: 'pointer' }}>Dice & Symbols</span>
