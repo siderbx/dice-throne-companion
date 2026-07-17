@@ -66,7 +66,7 @@ export const FAQ: React.FC = () => {
         {filtered.map(entry => {
           const isOpen = openId === entry.id;
           return (
-            <div key={entry.id} style={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: '12px', overflow: 'hidden' }}>
+            <div key={entry.id} style={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: '12px', overflow: 'hidden', flexShrink: 0 }}>
               <button
                 onClick={() => setOpenId(isOpen ? null : entry.id)}
                 style={{
