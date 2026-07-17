@@ -3,7 +3,7 @@ import { FAQ_DATA } from '../data/constants';
 
 interface FaqEntry {
   id: string;
-  cat: 'general' | 'ultimate' | 'cards' | 'adventures';
+  cat: 'general' | 'ultimate' | 'cards' | 'missions' | 'adventures';
   q: string;
   a: string;
 }
@@ -15,6 +15,7 @@ const FILTERS = [
   { key: 'general', label: 'General' },
   { key: 'ultimate', label: 'Ultimate Ability' },
   { key: 'cards', label: 'Cards' },
+  { key: 'missions', label: 'Missions' },
   { key: 'adventures', label: 'Adventures' },
 ] as const;
 
@@ -22,6 +23,7 @@ const CAT_LABELS: Record<FaqEntry['cat'], string> = {
   general: 'GENERAL',
   ultimate: 'ULTIMATE ABILITY',
   cards: 'CARDS',
+  missions: 'MISSIONS',
   adventures: 'ADVENTURES',
 };
 
