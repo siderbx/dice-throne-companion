@@ -13,6 +13,9 @@ const SCREEN_LABELS: Partial<Record<Screen, string>> = {
   'status-effects': 'Status Effects',
   trackers: 'Trackers',
   perks: 'Perks',
+  settings: 'Settings',
+  tokens: 'Tokens',
+  'dice-symbols': 'Dice & Symbols',
 };
 
 export const TopNav: React.FC = () => {

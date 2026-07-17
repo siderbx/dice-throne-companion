@@ -12,6 +12,9 @@ import { SetupMissions } from './components/SetupMissions'
 import { PlayMissions } from './components/PlayMissions'
 import { Trackers } from './components/Trackers'
 import { Perks } from './components/Perks'
+import { Settings } from './components/Settings'
+import { Tokens } from './components/Tokens'
+import { DiceSymbols } from './components/DiceSymbols'
 
 function App() {
   const { state } = useStore()
@@ -32,6 +35,9 @@ function App() {
         {state.screen === 'status-effects' && <StatusEffects />}
         {state.screen === 'trackers' && <Trackers />}
         {state.screen === 'perks' && <Perks />}
+        {state.screen === 'settings' && <Settings />}
+        {state.screen === 'tokens' && <Tokens />}
+        {state.screen === 'dice-symbols' && <DiceSymbols />}
       </div>
     </div>
   )

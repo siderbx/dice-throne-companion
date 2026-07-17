@@ -12,7 +12,12 @@ export type Screen =
   | 'rules'
   | 'status-effects'
   | 'trackers'
-  | 'perks';
+  | 'perks'
+  | 'settings'
+  | 'tokens'
+  | 'dice-symbols';
+
+export type Theme = 'light' | 'dark';
 
 export interface PlayerPerks {
   name: string;
@@ -54,6 +59,7 @@ export interface AdvState {
 // Simplified state interface based on README
 export interface AppState {
   screen: Screen;
+  theme: Theme;
   selectedCount: number;
   heroMom: number[];
   heroStatuses: Record<string, number>[];
@@ -71,6 +77,7 @@ export interface AppState {
 
 const defaultState: AppState = {
   screen: 'hub',
+  theme: 'light',
   selectedCount: 1,
   heroMom: [2],
   heroStatuses: [{}],
@@ -90,6 +97,8 @@ interface StoreContextType {
   state: AppState;
   setState: React.Dispatch<React.SetStateAction<AppState>>;
   setScreen: (screen: Screen) => void;
+  setTheme: (theme: Theme) => void;
+  resetSession: () => void;
   goBack: () => void;
   canGoBack: boolean;
 }
@@ -124,6 +133,10 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     localStorage.setItem('dt-state', JSON.stringify(state));
   }, [state]);
 
+  useEffect(() => {
+    document.documentElement.dataset.theme = state.theme;
+  }, [state.theme]);
+
   // Not persisted — always starts empty since load always lands on the Hub.
   const [history, setHistory] = useState<Screen[]>([]);
 
@@ -131,6 +144,15 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (screen === state.screen) return;
     setHistory((h) => [...h, state.screen]);
     setState((prev) => ({ ...prev, screen }));
+  };
+
+  const setTheme = (theme: Theme) => {
+    setState((prev) => ({ ...prev, theme }));
+  };
+
+  const resetSession = () => {
+    setState((prev) => ({ ...defaultState, theme: prev.theme, screen: 'hub' }));
+    setHistory([]);
   };
 
   const goBack = () => {
@@ -142,7 +164,7 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <StoreContext.Provider value={{ state, setState, setScreen, goBack, canGoBack: history.length > 0 }}>
+    <StoreContext.Provider value={{ state, setState, setScreen, setTheme, resetSession, goBack, canGoBack: history.length > 0 }}>
       {children}
     </StoreContext.Provider>
   );

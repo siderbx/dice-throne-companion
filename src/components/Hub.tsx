@@ -14,7 +14,7 @@ export const Hub: React.FC = () => {
         </div>
         <div style={{ display: 'flex', gap: '16px' }}>
           <button style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}>⌕</button>
-          <button style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}>⚙</button>
+          <button onClick={() => setScreen('settings')} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '1.2rem' }}>⚙</button>
         </div>
       </header>
 
@@ -80,8 +80,8 @@ export const Hub: React.FC = () => {
       <footer style={{ display: 'flex', justifyContent: 'center', gap: '32px', padding: '20px', borderTop: '1px solid var(--line)', color: 'var(--ink2)', fontSize: '0.9rem', fontWeight: 500 }}>
         <span style={{ cursor: 'pointer' }} onClick={() => setScreen('status-effects')}>Status Effects</span>
         <span style={{ cursor: 'pointer' }} onClick={() => setScreen('rules')}>All Rules</span>
-        <span style={{ cursor: 'pointer' }}>Tokens</span>
-        <span style={{ cursor: 'pointer' }}>Dice & Symbols</span>
+        <span style={{ cursor: 'pointer' }} onClick={() => setScreen('tokens')}>Tokens</span>
+        <span style={{ cursor: 'pointer' }} onClick={() => setScreen('dice-symbols')}>Dice & Symbols</span>
         <span style={{ cursor: 'pointer' }}>FAQ</span>
       </footer>
 
