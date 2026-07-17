@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStore, type AdvSession } from '../store';
+import { emptySession } from './Adventures';
 
 const DIFFICULTIES = [
   { level: 'Intro', defaultSalves: 15 },
@@ -111,7 +112,7 @@ export const AdventuresSetup: React.FC = () => {
             onClick={() => {
               // Ensure we have some default structure in adv
               if(!state.adv || !state.adv.sessions) {
-                 const sessions: AdvSession[] = Array.from({ length: 8 }, () => ({ result: null, remainingSalves: 0, goldUnspent: 0, exploredAll: false, bossLoot: 0, score: 0 }));
+                 const sessions: AdvSession[] = Array.from({ length: 8 }, emptySession);
                  setState(p => ({ ...p, adv: { ...p.adv, sessions, currentSalves: initialSalves } }));
               }
               setScreen('adventures'); // Adventures Scoring Sheet

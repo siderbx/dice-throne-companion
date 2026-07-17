@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStore } from '../store';
+import { enemyDicePool } from '../lib/mission';
 
 export const SetupMissions: React.FC = () => {
   const { state, setState, setScreen } = useStore();
@@ -23,8 +24,7 @@ export const SetupMissions: React.FC = () => {
   // Starting Health by hero count, per DTM_Rulebook_master_current_2024.06.13, pg. 4 "Choosing a Mission"
   const startingHp = [45, 30, 25, 20][state.selectedCount - 1] || 20;
   const crisisRate = state.selectedCount;
-  const redDice = 2;
-  const blackDice = 1 + state.selectedCount;
+  const { red: redDice, black: blackDice } = enemyDicePool(state.selectedCount);
 
   return (
     <div style={{ display: 'flex', height: '100%', padding: '40px', gap: '60px' }}>

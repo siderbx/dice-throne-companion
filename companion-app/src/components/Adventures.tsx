@@ -1,7 +1,8 @@
 import React from 'react';
 import { useStore, type AdvSession } from '../store';
+import { WitchKeys, toggleWitchKey } from './WitchKeys';
 
-const emptySession = (): AdvSession => ({ result: null, remainingSalves: 0, goldUnspent: 0, exploredAll: false, bossLoot: 0, score: 0 });
+export const emptySession = (): AdvSession => ({ result: null, remainingSalves: 0, goldUnspent: 0, exploredAll: false, bossLoot: 0, score: 0 });
 
 export const Adventures: React.FC = () => {
   const { state, setState, setScreen } = useStore();
@@ -34,10 +35,7 @@ export const Adventures: React.FC = () => {
   };
 
   const witchKeys = state.adv?.witchKeys || 0;
-  const toggleWitchKey = (key: number) => {
-    const hasKey = witchKeys >= key;
-    setState(p => ({ ...p, adv: { ...p.adv, witchKeys: hasKey ? key - 1 : key } }));
-  };
+  const handleWitchKeyToggle = (key: number) => setState(p => ({ ...p, adv: { ...p.adv, witchKeys: toggleWitchKey(witchKeys, key) } }));
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '40px' }}>
@@ -150,20 +148,7 @@ export const Adventures: React.FC = () => {
 
           <div style={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: '12px', padding: '24px' }}>
              <h3 className="mono-text" style={{ fontSize: '0.8rem', color: 'var(--ink3)', marginBottom: '16px' }}>WITCH KEYS</h3>
-             <div style={{ display: 'flex', gap: '12px' }}>
-              {[1,2,3].map(key => {
-                const hasKey = witchKeys >= key;
-                return (
-                  <div
-                    key={key}
-                    onClick={() => toggleWitchKey(key)}
-                    style={{ flex: 1, height: '48px', borderRadius: '8px', border: hasKey ? 'none' : '2px dashed var(--line)', background: hasKey ? 'var(--brass)' : 'transparent', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center', transition: 'all 0.2s' }}
-                  >
-                    {hasKey && <span style={{ color: 'white', fontSize: '1.5rem' }}>★</span>}
-                  </div>
-                );
-              })}
-            </div>
+             <WitchKeys count={witchKeys} onToggle={handleWitchKeyToggle} />
           </div>
 
         </div>

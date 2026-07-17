@@ -1,7 +1,10 @@
 import React from 'react';
 import { useStore } from '../store';
-import { STATUS_LIST, statusId, type StatusDef } from '../lib/status';
+import { nextStatusValue, type StatusDefWithId } from '../lib/status';
 import { BossHpTracker } from './BossHpTracker';
+import { StatusChipList } from './StatusChip';
+import { CrisisClockDial } from './CrisisClock';
+import { enemyDicePool } from '../lib/mission';
 
 export const Trackers: React.FC = () => {
   const { state, setState, setScreen } = useStore();
@@ -12,14 +15,14 @@ export const Trackers: React.FC = () => {
     setState(prev => ({ ...prev, heroMom: newMom }));
   };
 
-  const handleStatusTap = (heroIndex: number, status: StatusDef) => {
-    const id = statusId(status.name);
+  const handleStatusTap = (heroIndex: number, status: StatusDefWithId) => {
     const newStatuses = [...state.heroStatuses];
     if (!newStatuses[heroIndex]) newStatuses[heroIndex] = {};
-    const current = newStatuses[heroIndex][id] || 0;
-    newStatuses[heroIndex][id] = current >= status.limit ? 0 : current + 1;
+    newStatuses[heroIndex][status.id] = nextStatusValue(newStatuses[heroIndex][status.id] || 0, status.limit);
     setState(prev => ({ ...prev, heroStatuses: newStatuses }));
   };
+
+  const { red: redDice, black: blackDice } = enemyDicePool(state.selectedCount);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -83,46 +86,7 @@ export const Trackers: React.FC = () => {
 
               {/* Status Effects */}
               <div style={{ padding: '16px', flex: 1, display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', gap: '8px', background: 'var(--paper2)' }}>
-                {STATUS_LIST.map(status => {
-                  const id = statusId(status.name);
-                  const count = state.heroStatuses[i]?.[id] || 0;
-                  const isActive = count > 0;
-
-                  // Map type to variables
-                  let bgVar = 'transparent';
-                  let borderVar = 'var(--line)';
-                  let colorVar = 'var(--ink2)';
-
-                  if (isActive) {
-                    if (status.type === 'neg') { bgVar = 'var(--status-neg-bg)'; borderVar = 'var(--status-neg-border)'; colorVar = 'var(--ember)'; }
-                    if (status.type === 'pos') { bgVar = 'var(--status-pos-bg)'; borderVar = 'var(--status-pos-border)'; colorVar = 'var(--verd)'; }
-                    if (status.type === 'uniq') { bgVar = 'var(--status-unique-bg)'; borderVar = 'var(--status-unique-border)'; colorVar = 'var(--brass)'; }
-                  }
-
-                  return (
-                    <div
-                      key={id}
-                      title={status.desc}
-                      onClick={() => handleStatusTap(i, status)}
-                      style={{
-                        padding: '6px 12px',
-                        borderRadius: '20px',
-                        border: `1px solid ${borderVar}`,
-                        background: bgVar,
-                        color: colorVar,
-                        fontSize: '0.85rem',
-                        fontWeight: isActive ? 700 : 500,
-                        cursor: 'pointer',
-                        userSelect: 'none',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '6px'
-                      }}
-                    >
-                      {status.name} {isActive && <span style={{ background: 'rgba(0,0,0,0.1)', borderRadius: '50%', width: '18px', height: '18px', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.75rem' }}>{count}</span>}
-                    </div>
-                  );
-                })}
+                <StatusChipList statuses={state.heroStatuses[i] || {}} onTap={(status) => handleStatusTap(i, status)} />
               </div>
 
             </div>
@@ -136,16 +100,7 @@ export const Trackers: React.FC = () => {
 
           <div style={{ background: 'var(--card)', border: '1px solid var(--line)', borderRadius: '16px', padding: '24px' }}>
             <h3 className="mono-text" style={{ fontSize: '0.8rem', color: 'var(--ink3)', marginBottom: '12px' }}>CRISIS CLOCK</h3>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{ flex: 1, display: 'flex', gap: '4px' }}>
-                {[1,2,3,4,5,6,7,8].map(i => (
-                  <div key={i} style={{ flex: 1, height: '8px', background: i <= state.crisisClock ? 'var(--ember)' : 'var(--line)', borderRadius: '4px' }} />
-                ))}
-              </div>
-              <div className="display-text" style={{ fontSize: '2rem', fontWeight: 700 }}>
-                {state.crisisClock}
-              </div>
-            </div>
+            <CrisisClockDial value={state.crisisClock} />
             <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
               <button 
                 onClick={() => setState(prev => ({ ...prev, crisisClock: 0 }))}
@@ -167,11 +122,11 @@ export const Trackers: React.FC = () => {
              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '12px', borderBottom: '1px solid var(--line)' }}>
                   <span style={{ fontWeight: 600 }}>Red</span>
-                  <span className="mono-text" style={{ background: 'var(--paper2)', padding: '4px 8px', borderRadius: '8px', border: '1px solid var(--line)' }}>x2</span>
+                  <span className="mono-text" style={{ background: 'var(--paper2)', padding: '4px 8px', borderRadius: '8px', border: '1px solid var(--line)' }}>x{redDice}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontWeight: 600 }}>Black</span>
-                  <span className="mono-text" style={{ background: 'var(--paper2)', padding: '4px 8px', borderRadius: '8px', border: '1px solid var(--line)' }}>x{1 + state.selectedCount}</span>
+                  <span className="mono-text" style={{ background: 'var(--paper2)', padding: '4px 8px', borderRadius: '8px', border: '1px solid var(--line)' }}>x{blackDice}</span>
                 </div>
              </div>
           </div>

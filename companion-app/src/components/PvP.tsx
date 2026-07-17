@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStore, type PvpPlayer, type PvpState } from '../store';
-import { STATUS_LIST, statusId, type StatusDef } from '../lib/status';
+import { nextStatusValue, type StatusDefWithId } from '../lib/status';
+import { StatusChipList } from './StatusChip';
 
 export const PvP: React.FC = () => {
   const { state, setState } = useStore();
@@ -38,11 +39,9 @@ export const PvP: React.FC = () => {
     updatePvP({ players: newPlayers });
   };
 
-  const handleStatusTap = (index: number, status: StatusDef) => {
-    const id = statusId(status.name);
+  const handleStatusTap = (index: number, status: StatusDefWithId) => {
     const newPlayers = [...players];
-    const current = newPlayers[index].statuses[id] || 0;
-    newPlayers[index].statuses[id] = current >= status.limit ? 0 : current + 1;
+    newPlayers[index].statuses[status.id] = nextStatusValue(newPlayers[index].statuses[status.id] || 0, status.limit);
     updatePvP({ players: newPlayers });
   };
 
@@ -229,45 +228,7 @@ export const PvP: React.FC = () => {
 
             {/* Status Effects */}
             <div style={{ padding: '16px', flex: 1, display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', gap: '8px', background: 'var(--paper2)' }}>
-              {STATUS_LIST.map(status => {
-                const id = statusId(status.name);
-                const count = player.statuses[id] || 0;
-                const isActive = count > 0;
-
-                let bgVar = 'transparent';
-                let borderVar = 'var(--line)';
-                let colorVar = 'var(--ink2)';
-
-                if (isActive) {
-                  if (status.type === 'neg') { bgVar = 'var(--status-neg-bg)'; borderVar = 'var(--status-neg-border)'; colorVar = 'var(--ember)'; }
-                  if (status.type === 'pos') { bgVar = 'var(--status-pos-bg)'; borderVar = 'var(--status-pos-border)'; colorVar = 'var(--verd)'; }
-                  if (status.type === 'uniq') { bgVar = 'var(--status-unique-bg)'; borderVar = 'var(--status-unique-border)'; colorVar = 'var(--brass)'; }
-                }
-
-                return (
-                  <div
-                    key={id}
-                    title={status.desc}
-                    onClick={() => handleStatusTap(i, status)}
-                    style={{
-                      padding: '6px 12px',
-                      borderRadius: '20px',
-                      border: `1px solid ${borderVar}`,
-                      background: bgVar,
-                      color: colorVar,
-                      fontSize: '0.85rem',
-                      fontWeight: isActive ? 700 : 500,
-                      cursor: 'pointer',
-                      userSelect: 'none',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px'
-                    }}
-                  >
-                    {status.name} {isActive && <span style={{ background: 'rgba(0,0,0,0.1)', borderRadius: '50%', width: '18px', height: '18px', display: 'inline-flex', justifyContent: 'center', alignItems: 'center', fontSize: '0.75rem' }}>{count}</span>}
-                  </div>
-                );
-              })}
+              <StatusChipList statuses={player.statuses} onTap={(status) => handleStatusTap(i, status)} />
             </div>
           </div>
         ))}

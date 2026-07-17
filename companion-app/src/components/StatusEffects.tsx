@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { STATUS_LIST } from '../lib/status';
+import { STATUS_LIST, STATUS_TYPE_STYLES, type StatusType } from '../lib/status';
 
 export const StatusEffects: React.FC = () => {
   const [filter, setFilter] = useState<'All' | 'Negative' | 'Positive' | 'Unique'>('All');
@@ -47,14 +47,11 @@ export const StatusEffects: React.FC = () => {
       {/* Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px', flex: 1, overflowY: 'auto' }}>
         {filtered.map(status => {
-          let bgVar = 'var(--card)';
-          let borderVar = 'var(--line)';
-          let badgeColor = 'var(--ink)';
-          let label = 'UNIQUE';
-
-          if (status.type === 'neg') { bgVar = 'var(--status-neg-bg)'; borderVar = 'var(--status-neg-border)'; badgeColor = 'var(--ember)'; label = 'NEGATIVE'; }
-          if (status.type === 'pos') { bgVar = 'var(--status-pos-bg)'; borderVar = 'var(--status-pos-border)'; badgeColor = 'var(--verd)'; label = 'POSITIVE'; }
-          if (status.type === 'uniq') { bgVar = 'var(--status-unique-bg)'; borderVar = 'var(--status-unique-border)'; badgeColor = 'var(--brass)'; }
+          const style = STATUS_TYPE_STYLES[status.type as StatusType] ?? { bg: 'var(--card)', border: 'var(--line)', color: 'var(--ink)' };
+          const bgVar = style.bg;
+          const borderVar = style.border;
+          const badgeColor = style.color;
+          const label = status.type === 'neg' ? 'NEGATIVE' : status.type === 'pos' ? 'POSITIVE' : 'UNIQUE';
 
           return (
             <div key={status.name} style={{ background: bgVar, border: `1px solid ${borderVar}`, borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column' }}>

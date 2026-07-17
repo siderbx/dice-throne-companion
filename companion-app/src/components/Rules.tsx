@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { RULES_DATA } from '../data/constants';
 
 interface Rule {
@@ -13,16 +13,21 @@ interface Rule {
 }
 
 const RULES = RULES_DATA as Rule[];
+const RULES_BY_ID = new Map(RULES.map(r => [r.id, r]));
 const CATEGORIES = ['All', 'Core', 'Missions', 'Adventures', 'PVP'];
+
+const matchesCategory = (rule: Rule, cat: string) =>
+  cat === 'All' || rule.cat.toLowerCase() === cat.toLowerCase();
 
 export const Rules: React.FC = () => {
   const [category, setCategory] = useState('All');
   const [selectedRule, setSelectedRule] = useState(RULES[0]);
 
-  const matchesCategory = (rule: Rule, cat: string) =>
-    cat === 'All' || rule.cat.toLowerCase() === cat.toLowerCase();
-
-  const filteredRules = RULES.filter(r => matchesCategory(r, category));
+  const filteredRules = useMemo(() => RULES.filter(r => matchesCategory(r, category)), [category]);
+  const categoryCounts = useMemo(
+    () => Object.fromEntries(CATEGORIES.map(cat => [cat, RULES.filter(r => matchesCategory(r, cat)).length])),
+    []
+  );
 
   return (
     <div style={{ display: 'flex', height: '100%' }}>
@@ -33,7 +38,7 @@ export const Rules: React.FC = () => {
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column' }}>
           {CATEGORIES.map((cat) => {
             const isActive = category === cat;
-            const count = RULES.filter(r => matchesCategory(r, cat)).length;
+            const count = categoryCounts[cat];
             return (
               <li
                 key={cat}
@@ -109,7 +114,7 @@ export const Rules: React.FC = () => {
             <h4 className="mono-text" style={{ fontSize: '0.9rem', color: 'var(--ink3)', marginBottom: '16px' }}>SEE ALSO</h4>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {selectedRule.seeAlso.map(link => {
-                const target = RULES.find(r => r.id === link.id);
+                const target = RULES_BY_ID.get(link.id);
                 return (
                   <button
                     key={link.id}
