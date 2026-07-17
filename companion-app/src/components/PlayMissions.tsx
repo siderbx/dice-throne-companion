@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useStore } from '../store';
-import { MISSION_SIDE1_PHASES, MISSION_SIDE2_PHASES } from '../data/missionPhases';
+import { MISSION_HENCHMEN_PHASES, MISSION_BOSS_PHASES } from '../data/missionPhases';
 import { BossHpTracker } from './BossHpTracker';
 import { PhaseRail } from './PhaseRail';
 import { CrisisClockDial } from './CrisisClock';
@@ -11,17 +11,17 @@ export const PlayMissions: React.FC = () => {
   const [side, setSide] = useState<1 | 2>(1);
   const [activePhaseIdx, setActivePhaseIdx] = useState(0);
 
-  const phases = side === 1 ? MISSION_SIDE1_PHASES : MISSION_SIDE2_PHASES;
+  const phases = side === 1 ? MISSION_HENCHMEN_PHASES : MISSION_BOSS_PHASES;
   const { red: redDice, black: blackDice } = enemyDicePool(state.selectedCount);
 
   return (
     <PhaseRail
-      railHeader={`ROUND ${state.round} · SIDE ${side} PHASES`}
+      railHeader={`ROUND ${state.round} · ${side === 1 ? 'HENCHMEN' : 'BOSS'} SIDE PHASES`}
       phases={phases}
       activeIdx={activePhaseIdx}
       onSelect={setActivePhaseIdx}
       numbered
-      switchLabel={`Switch: Side ${side === 1 ? 2 : 1}`}
+      switchLabel={`Switch: ${side === 1 ? 'Boss' : 'Henchmen'} Side`}
       onSwitch={() => { setSide(side === 1 ? 2 : 1); setActivePhaseIdx(0); }}
       rightRail={
         <>

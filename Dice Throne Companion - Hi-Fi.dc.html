@@ -512,7 +512,7 @@
               <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
                 <div>
                   <span style="font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3)">New Game+</span>
-                  <span style="font-size:12px;color:var(--ink3);margin-left:12px">Perfect Side 1 &amp; complete Side 2 at each difficulty</span>
+                  <span style="font-size:12px;color:var(--ink3);margin-left:12px">Perfect the Henchmen Side &amp; complete the Boss Side at each difficulty</span>
                 </div>
                 <span style="{{ mythicBadgeStyle }}">{{ mythicStatus }}</span>
               </div>
@@ -2173,10 +2173,10 @@ class Component extends DCLogic {
         seeAlso:[{label:'undefendable',id:'undefendable'},{label:'Damage Resolution',id:'damage-resolution'}] },
       // ── MISSIONS ──────────────────────────────────────────────────────
       { id:'phase-pass',cat:'missions',title:'Phase 1 — Pass Phase',
-        summary:'Pass the Start Player token clockwise at the start of every round (skip on round 1 of Side 1).',
-        body:'The Pass Phase passes the Start Player token clockwise to the next hero. This player is the new Start Player until the end of the round. Whenever effects resolve in "turn order," begin with the Start Player and continue clockwise. Skipped on the very first round of Side 1.',
+        summary:'Pass the Start Player token clockwise at the start of every round (skip on round 1 of the Henchmen Side).',
+        body:'The Pass Phase passes the Start Player token clockwise to the next hero. This player is the new Start Player until the end of the round. Whenever effects resolve in "turn order," begin with the Start Player and continue clockwise. Skipped on the very first round of the Henchmen Side.',
         callout:'The Start Player has an important role — they resolve attacks first in Phase 4 and determine priority.',
-        bullets:['Token passes clockwise each round.','Skipped on round 1 of Side 1 only.','Turn order for all other phases starts with the Start Player.'],
+        bullets:['Token passes clockwise each round.','Skipped on round 1 of the Henchmen Side only.','Turn order for all other phases starts with the Start Player.'],
         seeAlso:[{label:'Turn Structure',id:'turn-structure'},{label:'phase-hero1',id:'phase-hero1'}] },
       { id:'phase-move',cat:'missions',title:'Phase 2 — Movement',
         summary:'Heroes may move any number of spaces, including zero. Collect any Boost Tiles landed on.',
@@ -2234,15 +2234,15 @@ class Component extends DCLogic {
         seeAlso:[{label:'Turn Structure',id:'turn-structure'},{label:'Crisis Clock',id:'crisis-clock'}] },
       { id:'perks',cat:'missions',title:'Perk Points & the Perk Sheet',
         summary:'Earn 0–3 Perk Points (PP) per Mission based on how far you got, then spend PP filling circles on your personal Perk Sheet to unlock permanent upgrades.',
-        body:'After each Mission, each player earns Perk Points (PP): 0 for not completing Side 1, 1 for completing Side 1 only, 2 for completing both sides, 3 for completing both sides plus the Side 1 Perfect Reward. Spend PP filling circles on your own Perk Sheet (columns of increasingly powerful, increasingly costly upgrades) rather than drawing/discarding cards.',
+        body:'After each Mission, each player earns Perk Points (PP): 0 for not completing the Henchmen Side, 1 for completing the Henchmen Side only, 2 for completing both sides, 3 for completing both sides plus the Henchmen Side Perfect Reward. Spend PP filling circles on your own Perk Sheet (columns of increasingly powerful, increasingly costly upgrades) rather than drawing/discarding cards.',
         callout:'Your Perk Sheet belongs to you, not your hero — you keep it and can use its unlocked Perks with any Hero you play in future Missions.',
         bullets:['PP earned scales with how far you got, not just win/loss (0–3 PP).','Spend PP to fill in Perk Sheet circles — no draw/keep mechanic.','Perks carry across Heroes — the sheet is player-owned, not hero-owned.'],
         seeAlso:[{label:'Momentum',id:'momentum'}] },
       { id:'ng-plus',cat:'missions',title:'New Game Plus (NG+)',
         summary:'The 6th column on your Perk Sheet. Filling all 5 NG+ circles unlocks a Mythic Ability.',
-        body:'New Game+ is not a Side B Hero Board or a harder enemy mode — it\'s the final column of your Perk Sheet. You earn NG+ circles by Perfecting Side 1 and completing Side 2 of Missions. Filling all 5 NG+ circles unlocks that hero\'s Mythic Ability, a permanent upgrade to their Hero Board.',
+        body:'New Game+ is not a Side B Hero Board or a harder enemy mode — it\'s the final column of your Perk Sheet. You earn NG+ circles by Perfecting the Henchmen Side and completing the Boss Side of Missions. Filling all 5 NG+ circles unlocks that hero\'s Mythic Ability, a permanent upgrade to their Hero Board.',
         callout:'NG+ progress lives on your Perk Sheet, just like every other Perk column — there\'s no separate "harder mode" to toggle.',
-        bullets:['6th Perk Sheet column, filled via PP like any other Perk.','Earned by Perfecting Side 1 and completing Side 2 of a Mission.','Filling all 5 circles unlocks a permanent Mythic Ability.'],
+        bullets:['6th Perk Sheet column, filled via PP like any other Perk.','Earned by Perfecting the Henchmen Side and completing the Boss Side of a Mission.','Filling all 5 circles unlocks a permanent Mythic Ability.'],
         seeAlso:[] },
       { id:'portal-crawl',cat:'adventures',title:'Portal Crawl',
         summary:'Explore a fixed dungeon layout, collect Portal Shards, fight Minions, then defeat the Level IV Minion at the Boss Portal to win.',
@@ -2436,10 +2436,10 @@ class Component extends DCLogic {
         bullets:['1-Intro, 2-Moderate, 3-Hard, 4-Brutal, 5-Ruthless, 6-Insane (no missions yet).','Increase difficulty: +1 black die, +Oppression per hero, +Henchman HP, use +1 Clock Hand.','Decrease difficulty options: double PP earned, +5 HP all heroes, +5 Momentum all heroes.'],
         seeAlso:[{label:'Perk Cards',id:'perks'},{label:'Oppression',id:'status-oppression'}] },
       { id:'dtm-win-lose',cat:'missions',title:'Win & Lose Conditions',
-        summary:'Win by completing the Main Objective on both Side 1 and Side 2. Lose if any hero is reduced to 0 HP.',
-        body:'You win a Mission by completing the Main Objective on both map sides. When Side 1 is complete, flip the map without resetting HP, cards, or Momentum, and set up Side 2. You lose if any hero reaches 0 HP — defeat triggers at the end of the current round phase (not immediately), so completing the Side 2 objective first still counts as a win.',
-        callout:'The 3 PP Perfect Reward requires BOTH completing Side 1 Perfect AND finishing Side 2 — Perfecting Side 1 alone caps at the normal PP for that side.',
-        bullets:['Win = Main Objective on both sides.','Lose = any hero reaches 0 HP (at end of current round phase).','On Side transition: keep HP, cards, Momentum; do Side 2 setup only.','Bonus Objectives: optional; resolve before Main Objective if completed simultaneously.'],
+        summary:'Win by completing the Main Objective on both the Henchmen Side and the Boss Side. Lose if any hero is reduced to 0 HP.',
+        body:'You win a Mission by completing the Main Objective on both map sides. When the Henchmen Side is complete, flip the map without resetting HP, cards, or Momentum, and set up the Boss Side. You lose if any hero reaches 0 HP — defeat triggers at the end of the current round phase (not immediately), so completing the Boss Side objective first still counts as a win.',
+        callout:'The 3 PP Perfect Reward requires BOTH completing the Henchmen Side Perfect AND finishing the Boss Side — Perfecting the Henchmen Side alone caps at the normal PP for that side.',
+        bullets:['Win = Main Objective on both sides.','Lose = any hero reaches 0 HP (at end of current round phase).','On Side transition: keep HP, cards, Momentum; do Boss Side setup only.','Bonus Objectives: optional; resolve before Main Objective if completed simultaneously.'],
         seeAlso:[{label:'Perk Cards',id:'perks'},{label:'dtm-difficulty',id:'dtm-difficulty'}] },
       // ── ADVENTURES additions ───────────────────────────────────────────
       { id:'explore',cat:'adventures',title:'Explore',
