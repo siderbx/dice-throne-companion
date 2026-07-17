@@ -16,6 +16,7 @@ const SCREEN_LABELS: Partial<Record<Screen, string>> = {
   settings: 'Settings',
   tokens: 'Tokens',
   'dice-symbols': 'Dice & Symbols',
+  faq: 'FAQ',
 };
 
 export const TopNav: React.FC = () => {

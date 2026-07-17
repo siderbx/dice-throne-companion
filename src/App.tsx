@@ -15,6 +15,7 @@ import { Perks } from './components/Perks'
 import { Settings } from './components/Settings'
 import { Tokens } from './components/Tokens'
 import { DiceSymbols } from './components/DiceSymbols'
+import { FAQ } from './components/FAQ'
 
 function App() {
   const { state } = useStore()
@@ -38,6 +39,7 @@ function App() {
         {state.screen === 'settings' && <Settings />}
         {state.screen === 'tokens' && <Tokens />}
         {state.screen === 'dice-symbols' && <DiceSymbols />}
+        {state.screen === 'faq' && <FAQ />}
       </div>
     </div>
   )

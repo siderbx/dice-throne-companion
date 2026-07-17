@@ -15,7 +15,8 @@ export type Screen =
   | 'perks'
   | 'settings'
   | 'tokens'
-  | 'dice-symbols';
+  | 'dice-symbols'
+  | 'faq';
 
 export type Theme = 'light' | 'dark';
 

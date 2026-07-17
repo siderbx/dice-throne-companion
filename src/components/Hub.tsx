@@ -82,7 +82,7 @@ export const Hub: React.FC = () => {
         <span style={{ cursor: 'pointer' }} onClick={() => setScreen('rules')}>All Rules</span>
         <span style={{ cursor: 'pointer' }} onClick={() => setScreen('tokens')}>Tokens</span>
         <span style={{ cursor: 'pointer' }} onClick={() => setScreen('dice-symbols')}>Dice & Symbols</span>
-        <span style={{ cursor: 'pointer' }}>FAQ</span>
+        <span style={{ cursor: 'pointer' }} onClick={() => setScreen('faq')}>FAQ</span>
       </footer>
 
     </div>
