@@ -9,6 +9,7 @@ Running log of what's done and what's next on the `companion-app` React rebuild 
 - [ ] Missions Boss Fight HP numbers (Boss starting HP by scenario) aren't in any provided data source — `BossHpTracker`'s max defaults to 50 and must be hand-set from the physical Scenario Card each session.
 - [ ] Adventures "Boss vs Many"/"Boss vs Boss" entries have a couple of numbers pdftotext couldn't extract cleanly (icon-adjacent digits, e.g. exact shared Health dial starting value) — worth a manual read of `Dice_Throne_Adventures_-_Rulebook_-_2022.02.28.pdf` pg. ~13 (print, not just text-extract) to confirm.
 - [ ] Build out Hub footer's "Tokens" and "Dice & Symbols" links (`Hub.tsx` ~line 84-86) — currently dead stubs, styled clickable but no `onClick` and no target screen. https://dice-throne.rulepop.com/ likely has token images and dice/symbol reference art to source this from.
+- [ ] Build out Hub footer's "FAQ" link (`Hub.tsx` ~line 86) — same dead-stub situation, but distinct content: clarifications/errata/edge-case rulings rather than rulebook text or reference images. Check rulepop.com for an FAQ/errata section as the source.
 
 ## Done
 
