@@ -424,15 +424,15 @@ export const RULES_DATA = [
       // ── PVP additions ──────────────────────────────────────────────────
       { id:'pvp-boss-vs-many',cat:'adventures',title:'Boss vs Many Mode',
         summary:'1 player plays as the Boss vs 2–4 heroes. Boss starts with higher HP + HP per hero.',
-        body:'Boss vs Many is a 3–5 player mode where one player plays as the Boss. Heroes share a Health dial starting at 30 HP. Boss starts with extra Health (base + per hero), shuffles Upgrade and Action decks together, and starts with cards and CP. Boss is always the Start Player and does not skip Income Phase. King\'s Hand tokens: Boss gains 1 during every player\'s Upkeep Phase (including its own).',
+        body:'Boss vs Many is a 3–5 player mode where one player plays as the Boss. Heroes share a Health dial starting at 50 HP. Boss starts with 10 Health plus 20 Health per Hero, shuffles Upgrade and Action decks together, and starts with 4 cards and 2 CP. Boss is always the Start Player and does not skip Income Phase. King\'s Hand tokens: Boss gains 1 during every player\'s Upkeep Phase (including its own).',
         callout:'When a King\'s Hand token is spent, roll a Loot die: 1–10 = gain CP; 11–15 = force a re-roll or gain a Roll Attempt; 16–20 = change any one die.',
-        bullets:['Heroes share a Health dial (30 HP).','Boss does not skip Income Phase (unlike standard Start Player rules).','Boss targeting is determined by rolling 1 Chaos die.','King\'s Hand tokens stack to max 5.'],
+        bullets:['Heroes share a Health dial (50 HP).','Boss does not skip Income Phase (unlike standard Start Player rules).','Boss targeting is determined by rolling 1 Chaos die.','King\'s Hand tokens stack to max 5.'],
         seeAlso:[{label:'pvp-setup',id:'pvp-setup'},{label:'boss-step',id:'boss-step'}] },
       { id:'pvp-boss-vs-boss',cat:'adventures',title:'Boss vs Boss Mode',
-        summary:'2-player duel where both players play as Bosses. Start with 50 HP, shuffled deck, 5 cards.',
-        body:'Boss vs Boss is a 2-player mode where each player operates a Boss. Setup: start with 50 HP (max 60), shuffle Upgrade and Action decks together, draw 5 cards and gain 2 CP. Standard Dice Throne 1v1 rules apply. King\'s Hand tokens work the same as Boss vs Many mode. All cards that reference "Active Player" refer to your opponent instead.',
+        summary:'2-player duel where both players play as Bosses. Start with 70 HP, shuffled deck, 4 cards.',
+        body:'Boss vs Boss is a 2-player mode where each player operates a Boss. Setup: start with 70 HP, shuffle Upgrade and Action decks together, draw 4 cards and gain 2 CP. Standard Dice Throne 1v1 rules apply. King\'s Hand tokens work the same as Boss vs Many mode. All cards that reference "Active Player" refer to your opponent instead.',
         callout:'Ignore Hero Bonuses and Roll Objectives printed on Action cards in both Boss vs Many and Boss vs Boss modes.',
-        bullets:['Each player: 50 HP, shuffled Upgrade+Action deck, 5 cards, 2 CP.','King\'s Hand: roll Loot die when spent (same as Boss vs Many).','Cards referencing "Active Player" mean your opponent.','Ignore Hero Bonuses and Roll Objectives on Action cards.'],
+        bullets:['Each player: 70 HP, shuffled Upgrade+Action deck, 4 cards, 2 CP.','King\'s Hand: roll Loot die when spent (same as Boss vs Many).','Cards referencing "Active Player" mean your opponent.','Ignore Hero Bonuses and Roll Objectives on Action cards.'],
         seeAlso:[{label:'pvp-setup',id:'pvp-setup'},{label:'pvp-boss-vs-many',id:'pvp-boss-vs-many'}] },
     ];
 
