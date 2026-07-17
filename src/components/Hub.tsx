@@ -33,11 +33,10 @@ export const Hub: React.FC = () => {
             <p style={{ color: 'var(--ink2)', fontFamily: 'var(--font-ui)', fontSize: '1.1rem' }}>Classic 1v1, Team, or FFA battles.</p>
           </button>
 
-          <button 
+          <button
             onClick={() => setScreen('missions')}
-            style={{ flex: 1, padding: '32px', borderRadius: '16px', background: 'var(--card)', border: '2px solid var(--ember)', borderTopWidth: '8px', textAlign: 'left', cursor: 'pointer', position: 'relative', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: 'var(--shadow-featured)' }}
+            style={{ flex: 1, padding: '32px', borderRadius: '16px', background: 'var(--card)', border: '1px solid var(--line)', textAlign: 'left', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: '16px' }}
           >
-            <div style={{ position: 'absolute', top: '-14px', right: '24px', background: 'var(--ember)', color: 'white', padding: '4px 12px', borderRadius: '20px', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '1px' }} className="mono-text">FEATURED</div>
             <h2 style={{ fontSize: '2rem' }}>Missions</h2>
             <p style={{ color: 'var(--ink2)', fontFamily: 'var(--font-ui)', fontSize: '1.1rem' }}>Co-op battles against Henchmen and Bosses.</p>
           </button>
