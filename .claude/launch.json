@@ -4,7 +4,7 @@
     {
       "name": "companion-app-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "companion-app"],
+      "runtimeArgs": ["run", "dev"],
       "port": 5173
     }
   ]
